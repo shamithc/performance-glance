@@ -30,6 +30,9 @@ public class CustomMetricsListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        logger.info("#### contextInitialized");
+
         CompositeMeterRegistry metricsRegistry = Metrics.globalRegistry;
         ServletContextListener.super.contextInitialized(sce);
         recordingStream = new RecordingStream();
@@ -39,10 +42,14 @@ public class CustomMetricsListener implements ServletContextListener {
             String path = event.getString("path").substring(1);
             String method = event.getString("method");
             String name = ((path.length()>1) ? (path.replaceAll("/",".") + ".") : "") + method.toLowerCase();
+            logger.info("Name : " + name);
             Timer timer = metricsRegistry.find(name).timer();
+            logger.info("Timer : " + timer);
             Objects.requireNonNullElseGet(timer, () -> {
                 return Timer.builder(name).description("Metrics for " + path + " (" + method + ")").register(metricsRegistry);
             }).record(event.getDuration());
+
+            logger.info("Duration : " + event.getDuration());
         });
 
         recordingStream.startAsync();

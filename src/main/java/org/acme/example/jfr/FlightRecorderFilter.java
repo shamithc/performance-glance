@@ -4,14 +4,21 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class FlightRecorderFilter implements Filter {
 
+    Logger logger = LoggerFactory.getLogger(FlightRecorderFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        logger.info("FlightRecorderFilter:init -> initialized");
         RestEndpointInvocationEvent event = new RestEndpointInvocationEvent();
+
+        logger.info("Event : " + event.toString());
 
         if (!event.isEnabled()) {
             return;
@@ -26,6 +33,8 @@ public class FlightRecorderFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        logger.info("FlightRecorderFilter:init -> doFilter");
+
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 

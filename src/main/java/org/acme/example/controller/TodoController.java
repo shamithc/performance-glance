@@ -100,7 +100,7 @@ public class TodoController {
     public ResponseEntity<?> simulateOverload() {
         logger.debug("Code that triggers an OOM");
         int count = 0;
-        while(count < 30000) {
+        while(count < 30) {
             Todo todo = new Todo();
             List<UUID> ids = repository.findAll().stream().map(t -> t.getId()).toList();
             count = ids.size();

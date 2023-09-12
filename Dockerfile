@@ -28,6 +28,7 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 RUN chmod +x /entrypoint.sh
 USER appuser
 EXPOSE 1099
+EXPOSE 8080
 
 ENV JDK_JAVA_OPTIONS "--enable-preview"
 
